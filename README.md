@@ -26,7 +26,7 @@ The application can be used in two ways:
 - Now the python functions from that module should be available in the excel
     Try typing `=function_name`, the auto complete should be available there
     
-## Getting started to build the scheduler as an excel add-in
+## Getting started to build the scheduler as an executable
 - Install python and pip from [here](https://www.python.org/)
 - Open cmd prompt if you are on Windows
 - Navigate to `scheduler_exe` folder
