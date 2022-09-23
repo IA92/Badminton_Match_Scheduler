@@ -72,6 +72,8 @@ class Scheduler:
                 if remove_idx >= remove_idx_max:
                     remove_idx = 0
                     players_to_be_removed = []
+                if self.court_number == 1:
+                    players_to_be_removed.extend(self.games[idx])
                 # Removing the players from previous game from the player pool
                 self.__remove_from_a_pool(player_pool, self.games[idx])
                 self.games.remove(self.games[idx])
