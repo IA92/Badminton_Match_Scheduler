@@ -1,7 +1,7 @@
 ## Badminton Match Scheduler
 A scheduler that creates a badminton match schedule given the number of court the matches are going to be played at. 
 
-The application can be built in two ways:
+The application can be used in two ways:
 - As an excel add-in with [pyxll](https://www.pyxll.com/index.html)
     - Require the installation of python and its dependency
     - Require the installation of pyxll
