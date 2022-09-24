@@ -5,8 +5,10 @@ import random
 from utils import (
     get_file_path,
     get_input_integer,
+    concat_dataframes_to_a_dataframe,
     concat_lists_to_a_dataframe,
     generate_csv_from_dataframe,
+    generate_excel_from_list_of_dataframe,
 )
 
 
@@ -79,13 +81,28 @@ class Scheduler:
                 self.games.remove(self.games[idx])
             if len(self.games) == 0:
                 print(
-                    "Games scheduled successfully! Results is written to scheduled_games.csv."
+                    "Games scheduled successfully! Results is written to scheduled_games.csv/xlsx."
                 )
                 return self.scheduled_games
             else:
                 print(
                     "Fail to schedule the game, please retry with lesser number of courts"
                 )
+
+    def get_formatted_matches_as_list_of_dataframe(self):
+        # Get a list of formatted dataframe
+        df = []
+        for idx in range(len(self.scheduled_games)):
+            each_df = pd.DataFrame(self.scheduled_games[idx])
+            # Insert the scoring and vs columns in the middle
+            middle_column_idx = int(
+                len(each_df.columns) / 2
+            )  # e.g., 1 for single matches and 2 for double matches
+            each_df.insert(middle_column_idx, "score 1", "")
+            each_df.insert(middle_column_idx + 1, "vs", "vs")
+            each_df.insert(middle_column_idx + 2, "score 2", "")
+            df.append(each_df)
+        return df
 
     def __str__(self) -> str:
         return f"Scheduler of {len(self.games)} games and players: ({self.players})"
@@ -97,6 +114,7 @@ if __name__ == "__main__":
         [("Excel files", ".xlsx .xls"), ("CSV files", ".csv")],
         "Please select a csv file that contains the matches to be scheduled",
     )
+
     # Get data from the excel sheet, e.g., games and players
     games = pd.read_excel(path_to_games_excel_file, "Sheet1", header=None)
     games = games.replace("(?i)vs", np.nan, regex=True)
@@ -110,6 +128,12 @@ if __name__ == "__main__":
     # Get the scheduled games
     sched = Scheduler(games, court_number)
     scheduled_games = sched.get_scheduled_games()
-    # Concat the dataframes in y axis (0) x axis (1)
-    df = concat_lists_to_a_dataframe(scheduled_games, 1)
-    generate_csv_from_dataframe(df, "scheduled_games")
+    # Generate an excel file with scheduled matches in each court at different sheet
+    generate_excel_from_list_of_dataframe(
+        sched.get_formatted_matches_as_list_of_dataframe(),
+        "scheduled_games",
+        "Court",
+    )
+    # Print the scheduled games
+    print(concat_lists_to_a_dataframe(sched.scheduled_games, 1))
+    input("Press any key to close this window...")
