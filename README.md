@@ -35,8 +35,12 @@ The application can be used in two ways:
     - Run `pyinstaller -F filename.py` or `pyinstaller --onefile filename.py`, e.g., `pyinstaller -F scheduler.py`
     - The executable will be created under a folder called `dist`!
     - Run the executable
-        - Select the appropriate input file that contains a list of matches 
-        - Input an integer as the number of courts where the organised matches will be allocated to
+        - Browse for the file that contains a list of matches 
+        - Select the excel sheet name where the list of matches are located
+            - The matches should be located a one list of matches in the same sheet
+            - The data should consists of 2 (for singles) or 4 (for doubles) columns of players
+            - The sheet name is set to `Sheet1` by default
+        - Select the number of courts where the organised matches will be allocated to (Notes: Currently it is only available for up to 4 courts)
         - A `scheduled_games.csv ` file will be created in the same folder where the executable is located
             - This file will consist of the newly scheduled games (Note: The sequence of the scheduled games will be different each time the app is run)
             
